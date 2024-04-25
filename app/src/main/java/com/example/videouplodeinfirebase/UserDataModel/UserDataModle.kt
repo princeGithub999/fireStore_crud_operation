@@ -1,4 +1,4 @@
-package com.example.videouplodeinfirebase.Activity.Adapter
+package com.example.videouplodeinfirebase.UserDataModel
 
 data class UserDataModle(
    val id:String?=null,

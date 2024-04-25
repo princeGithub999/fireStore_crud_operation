@@ -10,8 +10,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.videouplodeinfirebase.Activity.Adapter.UserDataModle
-import com.example.videouplodeinfirebase.HomeActivity
 import com.example.videouplodeinfirebase.databinding.ActivityUpdateBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -169,7 +167,7 @@ class UpdateActivity : AppCompatActivity() {
             "childnameImage" to childnameUpdateImage
         )
         db.collection("youTub")
-            .document(id!!).update(data as Map<String, Any>)
+                .document(id!!).update(data as Map<String, Any>)
             .addOnSuccessListener {
                 Toast.makeText(this, "Add data success", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, HomeActivity::class.java))

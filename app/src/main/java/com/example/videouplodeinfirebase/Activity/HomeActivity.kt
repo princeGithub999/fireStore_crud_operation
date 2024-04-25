@@ -1,22 +1,18 @@
-package com.example.videouplodeinfirebase
+package com.example.videouplodeinfirebase.Activity
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
-import com.example.videouplodeinfirebase.Activity.Adapter.UserDataAdapter
-import com.example.videouplodeinfirebase.Activity.Adapter.UserDataModle
-import com.example.videouplodeinfirebase.Activity.AddDataActivity
+import com.example.videouplodeinfirebase.Adapter.UserDataAdapter
+import com.example.videouplodeinfirebase.UserDataModel.UserDataModle
 import com.example.videouplodeinfirebase.databinding.HomeActivityBinding
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.toObject
-import com.google.firebase.storage.FirebaseStorage
 
 class HomeActivity : AppCompatActivity() {
 
@@ -33,6 +29,7 @@ class HomeActivity : AppCompatActivity() {
         binding.goAddDataPageButton.setOnClickListener {
             startActivity(Intent(this, AddDataActivity::class.java))
         }
+
 
 
     }
@@ -66,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
 
     private var progressDialog: ProgressDialog? = null
 
-    fun showProgressDailog(show: Boolean) {
+    private fun showProgressDailog(show: Boolean) {
         if (show) {
             if (progressDialog == null || progressDialog!!.isShowing) {
                 progressDialog = ProgressDialog(this)

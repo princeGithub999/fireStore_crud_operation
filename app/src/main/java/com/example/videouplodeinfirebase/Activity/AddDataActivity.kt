@@ -8,11 +8,12 @@ import android.provider.MediaStore
 import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.videouplodeinfirebase.Activity.Adapter.UserDataModle
-import com.example.videouplodeinfirebase.HomeActivity
+import com.example.videouplodeinfirebase.UserDataModel.UserDataModle
 import com.example.videouplodeinfirebase.databinding.ActivityAddDataBinding
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+
+
 import java.util.UUID
 
 class AddDataActivity : AppCompatActivity() {
@@ -52,7 +53,7 @@ class AddDataActivity : AppCompatActivity() {
 
     }
 
-    fun slectImage() {
+    private fun slectImage() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(intent, imageRequestCode)
     }
@@ -108,6 +109,7 @@ class AddDataActivity : AppCompatActivity() {
         }
             .addOnFailureListener {
                 Toast.makeText(this, "Don't uplode video", Toast.LENGTH_SHORT).show()
+                showProgressDialog(false)
                 return@addOnFailureListener
             }
     }
@@ -125,25 +127,30 @@ class AddDataActivity : AppCompatActivity() {
         }
             .addOnFailureListener {
                 Toast.makeText(this, "Don't uplode image", Toast.LENGTH_SHORT).show()
+                showProgressDialog(false)
+                return@addOnFailureListener
             }
     }
 
-    fun addData() {
+    private fun addData() {
         val userName = binding.userName.text.toString()
         val title = binding.title.text.toString()
 
-        val map = UserDataModle(id,userName,title,childNameVideo,childnameImage)
-        db.collection("youTub")
-            .document(id).set(map)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Add data success", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this,HomeActivity::class.java))
-                showProgressDialog(false)
-                return@addOnSuccessListener
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Don't add data", Toast.LENGTH_SHORT).show()
-            }
+        storeRef.downloadUrl.addOnSuccessListener {
+            val map = UserDataModle(id,userName,title,childNameVideo,childnameImage)
+            db.collection("youTub")
+                .document(id).set(map)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Add data success", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, HomeActivity::class.java))
+                    showProgressDialog(false)
+                    return@addOnSuccessListener
+                }
+                .addOnFailureListener {
+                    Toast.makeText(this, "Don't add data", Toast.LENGTH_SHORT).show()
+                }
+        }
+
     }
 
     private var progressDialog: ProgressDialog? = null
